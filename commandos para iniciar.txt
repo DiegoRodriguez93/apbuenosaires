@@ -1,0 +1,8 @@
+Para abrir la terminal
+Terminal - new terminal
+
+Iniciar
+yarn start
+
+instalar librerias 
+yarn
