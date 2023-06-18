@@ -1,0 +1,26 @@
+.idea
+.vscode/**
+!.vscode/extensions.json
+
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+
+# cache
+DS_Store
+.eslintcache
+
+.env
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+tsconfig.tsbuildinfo
