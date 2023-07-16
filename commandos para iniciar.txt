@@ -6,3 +6,6 @@ yarn start
 
 instalar librerias 
 yarn
+
+descargar cambios de Diego
+git fetch

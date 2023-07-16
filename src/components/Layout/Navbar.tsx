@@ -10,14 +10,16 @@ export const Navbar = () => {
       <BootstrapNavBar bg="light" expand="lg">
         <Container>
           <Nav className="me-auto d-flex justify-content-center w-100">
-            <NavLink className={isActiveStyle} to="/">Comodidades</NavLink>
+            <NavLink className={isActiveStyle} to="/comodidades">
+              Comodidades
+            </NavLink>
             <NavLink className={isActiveStyle} to="/ubicacion">
               Ubicacion
             </NavLink>
             <NavLink className={isActiveStyle} to="/fotos">
               Fotos
             </NavLink>
-            <NavLink className={isActiveStyle} to="/otros-servicios">
+            <NavLink className={isActiveStyle} to="/otrosservicios">
               Otros servicios
             </NavLink>
             <NavLink className={isActiveStyle} to="/reservas">
