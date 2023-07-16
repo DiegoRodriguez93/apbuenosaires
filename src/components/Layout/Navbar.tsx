@@ -1,9 +1,10 @@
 import { Navbar as BootstrapNavBar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import './navbar.css'
 
 export const Navbar = () => {
   // const { t } = useTranslation('footer');
-  const isActiveStyle = ({ isActive }: { isActive: boolean }) => (isActive ? 'text-primary nav-link' : 'nav-link');
+  const isActiveStyle = ({ isActive }: { isActive: boolean }) => (isActive ? 'text-danger nav-link navbarLink' : 'nav-link navbarLink');
 
   return (
     <Container fluid>
