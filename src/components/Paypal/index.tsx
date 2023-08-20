@@ -23,6 +23,7 @@ const PaypalButtonDiv: React.FC = () => {
             // localStorage.setItem("payment_approved", 1);
             console.log("a");
           }}
+          shippingPreference="NO_SHIPPING"
           options={{
             clientId: CLIENT_ID_NOSUB,
           }}

@@ -27,8 +27,14 @@ export const Otrosservicios = lazy(() =>
   })),
 );
 export const Reservas = lazy(() =>
-  import('../pages/Reservas').then((module) => ({
+  import('../pages/Reservas/Reservas').then((module) => ({
     default: module.Reservas,
+  })),
+);
+
+export const Administrador = lazy(() =>
+  import('../pages/Administrador').then((module) => ({
+    default: module.Administrador,
   })),
 );
 
