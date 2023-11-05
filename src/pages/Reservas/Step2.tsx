@@ -1,84 +1,76 @@
-import { Dispatch, FC, SetStateAction } from "react";
-import { Button, Col, Row } from "react-bootstrap";
-import { Footer, QuantityOfPersons, Steps } from "./Reservas";
+import { useState, useCallback, Dispatch, SetStateAction, FC, useMemo } from 'react';
+import 'react-dates/initialize';
+import { DateRangePicker, FocusedInputShape } from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
+import moment, { Moment } from 'moment';
+import { Footer, Steps } from './Reservas';
+import { useGetScheduleDates } from '../../hooks/useGetScheduleDates';
 
 type Step2Type = {
   step: Steps;
   setStep: Dispatch<SetStateAction<Steps>>;
-  quantityOfPersons: QuantityOfPersons;
-  setQuantityOfPersons: Dispatch<SetStateAction<QuantityOfPersons>>;
+  startDate: Moment | null;
+  setStartDate: Dispatch<SetStateAction<Moment | null>>;
+  endDate: Moment | null;
+  setEndDate: Dispatch<SetStateAction<Moment | null>>;
 };
 
-enum Operations {
-  sum = "sum",
-  rest = "rest",
-}
-
-export const Step2: FC<Step2Type> = ({
-  step,
-  setStep,
-  quantityOfPersons,
-  setQuantityOfPersons,
-}) => {
-  const handleSetPersons = (
-    key: keyof QuantityOfPersons,
-    operation: Operations
-  ) => {
-    if (quantityOfPersons[key] === 0 && operation === Operations.rest) {
-      return;
-    }
-    const newValue =
-      operation === Operations.sum
-        ? quantityOfPersons[key] + 1
-        : quantityOfPersons[key] - 1;
-    setQuantityOfPersons({ ...quantityOfPersons, [key]: newValue });
-  };
-
-  const continueCallback = () => {
+export const Step2: FC<Step2Type> = ({ step, setStep, startDate, setStartDate, endDate, setEndDate }) => {
+  const { formattedData } = useGetScheduleDates();
+  const continueCallback = useCallback(() => {
     setStep(Steps.Step3);
-  };
+  }, [setStep]);
+
+  const [focusedInput, setFocusedInput] = useState<FocusedInputShape | null>(null);
+
+  const onDatesChange = useCallback(({ startDate, endDate }: any) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  }, [setStartDate, setEndDate]);
+
+  const onFocusChange = useCallback((focusedInput: FocusedInputShape | null) => {
+    setFocusedInput(focusedInput);
+  }, []);
+
+  const blockedDays = useMemo(() => {
+    const days: any = [];
+    formattedData?.forEach((range) => {
+      const start = moment(range.endDate, 'YYYY-MM-DD');
+      const end = moment(range.startDate, 'YYYY-MM-DD');
+
+      // Se agrega un control por si las fechas vienen en orden inverso
+      const [minDate, maxDate] = start.isAfter(end) ? [end, start] : [start, end];
+
+      for (let m = minDate; m.diff(maxDate, 'days') <= 0; m.add(1, 'days')) {
+        days.push(m.clone());
+      }
+    });
+    return days;
+  }, [formattedData]);
+
+  const isDayBlocked = useCallback(
+    (day: Moment) => {
+      // Comprobar si el día está en el rango de días bloqueados
+      return blockedDays.some((blockedDay: any) => day.isSame(blockedDay, 'day'));
+    },
+    [blockedDays],
+  );
 
   return (
     <>
-      <h3>Elige la cantidad de personas</h3>
-      <Row>
-        <Col md={4} sm={12}></Col>
-        <Col md={4} sm={12} style={{ textAlign: "justify" }}>
-          <div style={{ marginBottom: "10px" }}>
-            <Button onClick={() => handleSetPersons("babys", Operations.rest)}>
-              -
-            </Button>
-            Bebes ({quantityOfPersons.babys})
-            <Button onClick={() => handleSetPersons("babys", Operations.sum)}>
-              +
-            </Button>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <Button onClick={() => handleSetPersons("childs", Operations.rest)}>
-              -
-            </Button>
-            Niños/Adolescentes ({quantityOfPersons.childs})
-            <Button onClick={() => handleSetPersons("childs", Operations.sum)}>
-              +
-            </Button>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <Button onClick={() => handleSetPersons("adults", Operations.rest)}>
-              -
-            </Button>
-            Adultos ({quantityOfPersons.adults})
-            <Button onClick={() => handleSetPersons("adults", Operations.sum)}>
-              +
-            </Button>
-          </div>
-          <Footer
-            step={step}
-            setStep={setStep}
-            continueCallback={continueCallback}
-          />
-        </Col>
-        <Col md={4} sm={12}></Col>
-      </Row>
+      <h3>Por favor elige los días</h3>
+      <DateRangePicker
+        startDate={startDate}
+        startDateId="your_unique_start_date_id"
+        endDate={endDate}
+        endDateId="your_unique_end_date_id"
+        onDatesChange={onDatesChange}
+        focusedInput={focusedInput}
+        onFocusChange={onFocusChange}
+        keepOpenOnDateSelect
+        isDayBlocked={isDayBlocked}
+      />
+      <Footer step={step} setStep={setStep} continueCallback={continueCallback} />
     </>
   );
 };

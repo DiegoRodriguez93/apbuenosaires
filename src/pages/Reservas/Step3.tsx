@@ -1,17 +1,83 @@
-import { Col, Row } from "react-bootstrap";
-import PaypalButtonDiv from "../../components/Paypal";
-import "./steps.css";
+import { Dispatch, FC, SetStateAction } from "react";
+import { Button, Col, Row } from "react-bootstrap";
+import { Footer, QuantityOfPersons, Steps } from "./Reservas";
 
-export const Step3 = () => {
+type Step3Type = {
+  step: Steps;
+  setStep: Dispatch<SetStateAction<Steps>>;
+  quantityOfPersons: QuantityOfPersons;
+  setQuantityOfPersons: Dispatch<SetStateAction<QuantityOfPersons>>;
+};
+
+enum Operations {
+  sum = "sum",
+  rest = "rest",
+}
+
+export const Step3: FC<Step3Type> = ({
+  step,
+  setStep,
+  quantityOfPersons,
+  setQuantityOfPersons,
+}) => {
+  const handleSetPersons = (
+    key: keyof QuantityOfPersons,
+    operation: Operations
+  ) => {
+    if (quantityOfPersons[key] === 0 && operation === Operations.rest) {
+      return;
+    }
+    const newValue =
+      operation === Operations.sum
+        ? quantityOfPersons[key] + 1
+        : quantityOfPersons[key] - 1;
+    setQuantityOfPersons({ ...quantityOfPersons, [key]: newValue });
+  };
+
+  const continueCallback = () => {
+    setStep(Steps.Step4);
+  };
+
   return (
     <>
-      <h3>Realiza el pago</h3>
+      <h3>Elige la cantidad de personas</h3>
       <Row>
-        <Col md={2} sm={12}></Col>
-        <Col md={8} sm={12}>
-          <PaypalButtonDiv />
+        <Col md={4} sm={12}></Col>
+        <Col md={4} sm={12} style={{ textAlign: "justify" }}>
+          <div style={{ marginBottom: "10px" }}>
+            <Button onClick={() => handleSetPersons("babys", Operations.rest)}>
+              -
+            </Button>
+            Bebes ({quantityOfPersons.babys})
+            <Button onClick={() => handleSetPersons("babys", Operations.sum)}>
+              +
+            </Button>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <Button onClick={() => handleSetPersons("childs", Operations.rest)}>
+              -
+            </Button>
+            Niños/Adolescentes ({quantityOfPersons.childs})
+            <Button onClick={() => handleSetPersons("childs", Operations.sum)}>
+              +
+            </Button>
+          </div>
+          <div style={{ marginBottom: "10px" }}>
+            <Button onClick={() => handleSetPersons("adults", Operations.rest)}>
+              -
+            </Button>
+            Adultos ({quantityOfPersons.adults})
+            <Button onClick={() => handleSetPersons("adults", Operations.sum)}>
+              +
+            </Button>
+          </div>
+          <Footer
+            step={step}
+            setStep={setStep}
+            continueCallback={continueCallback}
+          />
         </Col>
-        <Col md={2} sm={12}></Col>
+        <Col md={4} sm={12}></Col>
       </Row>
     </>
   );

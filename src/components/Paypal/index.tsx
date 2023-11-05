@@ -2,7 +2,11 @@ import React from "react";
 
 import { PayPalButton } from "react-paypal-button-v2";
 
-const PaypalButtonDiv: React.FC = () => {
+type PaypalButtonDivProps = {
+  price: number
+}
+
+const PaypalButtonDiv: React.FC<PaypalButtonDivProps> = ({price}) => {
   const CLIENT_ID_NOSUB =
     "ATWdOnaxQKdaZsz1fyXHyATWO2b8sI5qG_t8ukWRSG6zLQlOOGIArCGnA5F-1dV4BPiMme3_RvEyFQjI&currency=USD";
 
@@ -10,7 +14,7 @@ const PaypalButtonDiv: React.FC = () => {
     <div className="input-group cien">
       <div>
         <PayPalButton
-          amount={35}
+          amount={price}
           // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
           onSuccess={() => {
             /*             Swal.fire({
