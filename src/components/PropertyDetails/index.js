@@ -13,6 +13,8 @@ import moment from 'moment';
 import 'moment/locale/es'; // Import Spanish locale
 import { db } from '../../firebase'; // Ensure you have this import if you're using Firebase
 import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
+import { useNavigate } from 'react-router-dom';
+
 
 const PropertyMap = dynamic(() => import('../PropertyMap'), {
   ssr: false,
@@ -21,6 +23,8 @@ const PropertyMap = dynamic(() => import('../PropertyMap'), {
 const PropertyDetails = ({ property }) => {
   moment.locale('es');
 
+  const navigate = useNavigate();
+  const [totalPrice, setTotalPrice] = useState(0);
   const [currentURL, setCurrentURL] = useState('');
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -29,6 +33,21 @@ const PropertyDetails = ({ property }) => {
   const [adults, setAdults] = useState(1); // Start with 1 adult by default
 const [children, setChildren] = useState(0);
 const [infants, setInfants] = useState(0);
+
+const handleReservation = () => {
+  navigate('/payment', {
+    state: {
+      price: totalPrice,
+      startDate: startDate.format('DD-MM-YYYY'), // Format the date
+      endDate: endDate.format('DD-MM-YYYY'), // Format the date
+      guests: adults + children + infants, // Combining adults and children for total guests
+      title: property.title,
+      // Include any other details you need
+    }
+  });
+};
+
+
 
   useEffect(() => {
     const fetchBlockedDates = async () => {
@@ -50,6 +69,21 @@ const [infants, setInfants] = useState(0);
       setCurrentURL(window.location.href);
     }
   }, [property]);
+
+  useEffect(() => {
+    const calculateTotalPrice = () => {
+      if (!startDate || !endDate || !property.price) return;
+
+      const nights = endDate.diff(startDate, 'days');
+      const guestsCount = adults + children; // Assuming infants are free
+      const pricePerNight = parseInt(property.price, 10);      
+
+      const total = (pricePerNight + (guestsCount * 5)) * nights;
+      setTotalPrice(total);
+    };
+
+    calculateTotalPrice();
+  }, [startDate, endDate, adults, children, property.price]);
 
   if (!property) {
     return <div>Loading property data...</div>;
@@ -122,7 +156,9 @@ const [infants, setInfants] = useState(0);
       </div>
     );
   };
-  
+
+ 
+
   
   
   return (
@@ -137,6 +173,8 @@ const [infants, setInfants] = useState(0);
         </div>
 
         <div className={styles.detailsContainer}>
+        <div className={styles.propertyAndBookingDetails}>
+
           <h1>Características principales</h1>
           {[
             //{ icon: faHandHoldingDollar, label: `Precio: ${property.price ? `USD ${property.price}` : 'Precio no disponible'}` },
@@ -144,7 +182,6 @@ const [infants, setInfants] = useState(0);
             { icon: faBath, label: `Baños: ${property.bathrooms || 'Baños Not Available'}` },
             { icon: faBed, label: `Habitaciones: ${property.bedrooms || 'Habitaciones Not Available'}` },
             { icon: faCity, label: `Barrio: ${property.neighborhood || 'Barrio no disponible'}` },
-            { icon: faCar, label: `Cochera: ${property.garage !== undefined ? (property.garage ? 'Sí' : 'No') : 'Cochera Not Available'}` },
           ].map(({ icon, label }) => (
             <p key={label}>
               <div className={styles.iconTextWrapper}>
@@ -165,18 +202,11 @@ const [infants, setInfants] = useState(0);
             <FontAwesomeIcon icon={faWhatsapp} /> Contactar por WhatsApp
           </a>
         </div>
-      </div>
-      <div>
-  <h2>Selecciona huéspedes y fechas de tu reserva</h2>
-  <GuestSelector
-    adults={adults}
-    setAdults={setAdults}
-    children={children}
-    setChildren={setChildren}
-    infants={infants}
-    setInfants={setInfants}
-  />
-  <div className={styles.calendarContainer}>
+
+      <div className={styles.bookingDetailsContainer}>
+      <h2>Seleccioná tus fechas</h2>
+
+      <div className={styles.calendarContainer}>
         <DateRangePicker
           startDate={startDate} // momentPropTypes.momentObj or null,
           startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
@@ -193,9 +223,32 @@ const [infants, setInfants] = useState(0);
           withPortal={window.innerWidth < 768}
         />
       </div>
-</div>
+     <GuestSelector
+    adults={adults}
+    setAdults={setAdults}
+    children={children}
+    setChildren={setChildren}
+    infants={infants}
+    setInfants={setInfants}
+     />
 
-      
+ 
+
+      <div className={styles.totalPrice}>
+      <div className={styles.priceInfo}>
+        <h2>Precio total</h2>
+        <p>{`USD ${totalPrice}`}</p>
+        </div>
+        <button
+  className={styles.reservarButton}
+  onClick={handleReservation}
+  disabled={!startDate || !endDate} // Button is disabled if either date is not selected
+>
+  Reservar
+</button>      </div>
+</div>
+</div>
+</div>  
 
       <div className={styles.description}>
   <h2>Descripción</h2>

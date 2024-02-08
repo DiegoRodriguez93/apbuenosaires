@@ -21,27 +21,16 @@ export const Step1: FC<Step1Type> = ({ step, setStep, apto, setApto }) => {
     [setApto],
   );
 
+  //<Footer step={step} setStep={setStep} continueCallback={continueCallback} />
+
   return (
     <>
-      <h3>Por favor elige el apto</h3>
-      <div>
-        <label>
-          <input type="radio" value={Aptos.Apto1} checked={apto === Aptos.Apto1} onChange={handleOptionChange} />
-          Apto 1
-        </label>
-        <label>
-          <input type="radio" value={Aptos.Apto2} checked={apto === Aptos.Apto2} onChange={handleOptionChange} />
-          Apto 2
-        </label>
-        <label>
-          <input type="radio" value={Aptos.Apto3} checked={apto === Aptos.Apto3} onChange={handleOptionChange} />
-          Apto 3
-        </label>
-      </div>
+      <h3>Seleccioná el apartamento</h3>
+    
       <MainContentPropertyList />
 
 
-      <Footer step={step} setStep={setStep} continueCallback={continueCallback} />
+      
     </>
   );
 };

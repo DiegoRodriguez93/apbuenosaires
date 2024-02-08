@@ -19,6 +19,7 @@ import {
 } from "./paths";
 import PropertyId, { EditProperty } from "../pages/property/edit/[propertyId]";
 import SingleProperty from "../pages/property/[propertyId]";
+import { Step4 } from "../pages/Reservas/Step4";
 
 export const Routes = () => {
   return (
@@ -36,6 +37,7 @@ export const Routes = () => {
         <Route path="/property/:propertyId" element={<SingleProperty />} /> 
         <Route path="*" element={<Navigate to="/404" />} />
         <Route path="/404" element={<GenericNotFound />} />
+        <Route path="/payment" element={<Step4/>} />
       </RoutesReactRouterDom>
     </Suspense>
   );

@@ -65,7 +65,7 @@ const FORM_STEPS = (
   [Steps.Step3]: (
     <Step3 step={step} setStep={setStep} quantityOfPersons={quantityOfPersons} setQuantityOfPersons={setQuantityOfPersons} />
   ),
-  [Steps.Step4]: <Step4 price={price} />,
+  [Steps.Step4]: <Step4 />,
 });
 
 const BASE_PRICE_PER_DAY = 35;
