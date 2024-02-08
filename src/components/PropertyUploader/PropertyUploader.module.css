@@ -1,0 +1,89 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 50px;
+  }
+
+
+  .blockedDate {
+    background-color: #ff6b6b !important; 
+    color: white; 
+  }
+
+ 
+  .form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.7rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .formLabel {
+    grid-column: span 1;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .existingImagesWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .imageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .editPropertyImage {
+    width: 100px;
+    height: auto;
+  }
+  
+  .formInput,
+  .formTextarea {
+    grid-column: span 1;
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .formButton {
+    grid-column: span 2;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .formButton:hover {
+    background-color: #0056b3;
+  }
+
+  .formAndSpinnerContainer {
+    position: relative;
+  }
+  
+  .spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.5); 
+    z-index: 1000;
+  }

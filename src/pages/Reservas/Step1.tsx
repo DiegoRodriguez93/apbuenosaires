@@ -1,5 +1,6 @@
 import { useCallback, Dispatch, SetStateAction, FC } from 'react';
 import { Aptos, Footer, Steps } from './Reservas';
+import MainContentPropertyList from '../../components/MainContentPropertyList';
 
 type Step1Type = {
   step: Steps;
@@ -37,6 +38,9 @@ export const Step1: FC<Step1Type> = ({ step, setStep, apto, setApto }) => {
           Apto 3
         </label>
       </div>
+      <MainContentPropertyList />
+
+
       <Footer step={step} setStep={setStep} continueCallback={continueCallback} />
     </>
   );

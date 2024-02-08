@@ -2,3 +2,8 @@
   margin-top: 30px;
   position: absolute !important;
 }
+
+.CalendarDay__blocked_calendar, .CalendarDay__blocked_out_of_range {
+  background-color: #ff6b6b !important; 
+  color: white; 
+}

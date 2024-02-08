@@ -5,6 +5,7 @@ import 'react-dates/lib/css/_datepicker.css';
 import moment, { Moment } from 'moment';
 import { Footer, Steps } from './Reservas';
 import { useGetScheduleDates } from '../../hooks/useGetScheduleDates';
+import './steps.css';
 
 type Step2Type = {
   step: Steps;

@@ -1,0 +1,216 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  padding-top: 50px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.iconTextWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem; /* Add a little space between each characteristic */
+}
+
+.characteristic {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem; /* Restores size */
+  color: #1b4b73; /* Restores blue color */
+  margin-left: 10px; /* To keep the space between the icon and the text */
+  white-space: nowrap; /* Add this line */
+}
+
+
+.header h1 {
+  font-size: 2rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  color: #4a4a4a;
+  font-weight: 500;
+}
+
+.header .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1b4b73;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+
+.imageSection {
+  width: 100%; /* Default to 100% width for mobile and smaller screens */
+  margin: auto;
+}
+
+@media (min-width: 1024px) {
+  .imageSection {
+    max-width: 70%; /* Apply 80% width only for screens wider than 1024px */
+  }
+
+  .imageSection img {
+    max-height: 600px;
+    object-fit: contain;
+  }
+}
+
+.bigIcon {
+  font-size: 2.2rem;
+  color: #1b4b73;
+  margin-right: 10px;
+  fill: none;
+  width: 30px;
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.detailsContainer h1 {
+  font-size: 1.5rem;
+  margin: 0;
+  white-space: nowrap;  /* Prevents the wrapping */
+}
+
+.detailsContainer p {
+  margin: 0;
+}
+
+.description {
+  width: 100%;
+}
+
+.description h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.1rem; /* space between header and paragraph */
+  letter-spacing: 1px; /* a little space between letters */
+}
+
+.description p {
+  font-size: 1.2rem; /* not too big, not too small */
+  color: #4a4a4a; /* slightly darker than normal text for readability */
+  line-height: 1.5; /* space between lines */
+  text-align: justify; /* aligns the text both left and right */
+}
+
+@media (max-width: 992px) {
+  .content {
+    flex-direction: column;
+    gap: 2rem; /* Bigger gap between image and details for readability */
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header .price {
+    font-size: 1.2rem;
+  }
+  
+  .container {
+    padding: 1.5rem; /* A bit more padding to prevent content from touching the edges */
+  }
+}
+
+.whatsappButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #25d366;
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-top: 1rem;
+  gap: 10px; /* This is the space between the icon and the text */
+}
+
+.whatsappButton:hover {
+  background-color: #1ebe57;
+}
+
+.guestSelector {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-top: 1rem;
+  margin-bottom: 30px;
+  max-width: 300px;
+}
+
+.guestType {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+  max-width: 250px;
+}
+
+.calendarContainer {
+  display: flex;
+  align-items: center;
+}
+
+.guestType span {
+  font-size: 1.2rem;
+  color: #4a4a4a;
+}
+
+.guestType button {
+  background-color: #1b4b73;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.guestTypeLabel {
+  flex-basis: 40%; /* Adjust based on your layout; ensures label width is fixed */
+  text-align: left; /* Aligns text to the left */
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-around; /* Evenly spaces the buttons */
+  flex-basis: 60%; /* Remaining space for buttons; adjust as needed */
+}
+
+.guestType button:hover {
+  background-color: #163d57;
+}
+
+/* Adjustments for mobile responsiveness */
+@media (max-width: 768px) {
+  .guestSelector {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+

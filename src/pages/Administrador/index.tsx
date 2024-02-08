@@ -1,9 +1,13 @@
-import { Col, Row, Button } from "react-bootstrap";
-import { Layout } from "../../components/Layout";
-import { Dispatch, SetStateAction, useState } from "react";
-import { useGetScheduleDates } from "../../hooks/useGetScheduleDates";
-import "./administrador.css";
-import { APTO_ENDPOINTS } from "../../api/apto_api";
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Col, Row, Button } from 'react-bootstrap';
+import { Layout } from '../../components/Layout';
+import { useGetScheduleDates } from '../../hooks/useGetScheduleDates';
+import { APTO_ENDPOINTS } from '../../api/apto_api';
+import { auth } from '../../firebase';
+import './administrador.css';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import PropertyManageList from '../../components/PropertyManageList';
+
 
 type BlockNewDate = {
   startDate?: string;
@@ -12,9 +16,9 @@ type BlockNewDate = {
 };
 
 export const Administrador = () => {
-  const [isAdmin, setIsAdmin] = useState(
-    Boolean(localStorage.getItem("isAdmin"))
-  );
+  console.log("Administrador component is rendering");
+
+  const [isAdmin, setIsAdmin] = useState(Boolean(localStorage.getItem('isAdmin')));
   const [blockNewDate, setBlockNewDate] = useState<BlockNewDate>({
     startDate: undefined,
     endDate: undefined,
@@ -24,46 +28,43 @@ export const Administrador = () => {
 
   const getNewInfoFromTable = () => setRefetch(refetch + 1);
 
-  console.log("data", data);
-
   if (!isAdmin) {
     return (
       <Layout>
-        <Password setIsAdmin={setIsAdmin} />
+        <Login setIsAdmin={setIsAdmin} />
       </Layout>
     );
   }
 
   const handleReserveDate = async () => {
-    if (
-      blockNewDate.startDate === undefined ||
-      blockNewDate.endDate === undefined
-    ) {
+    if (blockNewDate.startDate === undefined || blockNewDate.endDate === undefined) {
       return;
     }
     const options = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...blockNewDate }),
     };
-
+  
     await fetch(APTO_ENDPOINTS.SAVE_SCHEDULE_DATE, options)
-      .then((response) => response.json())
-      .catch((err) => console.error(err))
+      .then(response => response.json())
+      .catch(err => console.error(err))
       .finally(() => {
         setBlockNewDate({
           endDate: undefined,
           startDate: undefined,
-          ...blockNewDate,
+          aptoId: blockNewDate.aptoId,
         });
-        if (
-          document.getElementById("startDate") != null &&
-          document.getElementById("endDate") != null
-        ) {
-          // @ts-expect-error
-          document.getElementById("startDate").value = "";
-          // @ts-expect-error
-          document.getElementById("endDate").value = "";
+  
+        const startDateInput = document.getElementById('startDate') as HTMLInputElement | null;
+        const endDateInput = document.getElementById('endDate') as HTMLInputElement | null;
+  
+        if (startDateInput !== null) {
+          startDateInput.value = '';
+        }
+  
+        if (endDateInput !== null) {
+          endDateInput.value = '';
         }
       });
     getNewInfoFromTable();
@@ -77,7 +78,7 @@ export const Administrador = () => {
   const handleDelete = async (id: number) => {
     try {
       await fetch(APTO_ENDPOINTS.DELETE_SCHEDULE_DATE(String(id)), {
-        method: "DELETE",
+        method: 'DELETE',
       });
       getNewInfoFromTable();
     } catch (error) {
@@ -89,121 +90,66 @@ export const Administrador = () => {
     <Layout>
       <Row>
         <Col>
-          <Button onClick={handleLogout} variant="danger">
-            Cerrar sesión
-          </Button>
-          <h4>Bloquear Fecha</h4>
-          <label htmlFor="startDate">Desde</label>
-          <input
-            value={blockNewDate.startDate}
-            onChange={(e) =>
-              setBlockNewDate({
-                ...blockNewDate,
-                startDate: e.target.value,
-              })
-            }
-            type="date"
-            name="startDate"
-            id="startDate"
-          />
-          <label htmlFor="endDate">Hasta</label>
-          <input
-            value={blockNewDate.endDate}
-            onChange={(e) =>
-              setBlockNewDate({
-                ...blockNewDate,
-                endDate: e.target.value,
-              })
-            }
-            type="date"
-            name="endDate"
-            id="endDate"
-          />
-          <label htmlFor="apto">Apto</label>
-          <select
-            onChange={(e) =>
-              setBlockNewDate({
-                ...blockNewDate,
-                aptoId: Number(e.target.value),
-              })
-            }
-            style={{ marginRight: "10px" }}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
-          <Button onClick={handleReserveDate}>Bloquear</Button>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <table className="tableSchedule">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Desde</th>
-                <th>Hasta</th>
-                <th>Apto</th>
-                <th>Eliminar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((row, index) => (
-                <tr key={index}>
-                  <td>{row.id}</td>
-                  <td>{row.initial_date}</td>
-                  <td>{row.final_date}</td>
-                  <td>{row.apto_id}</td>
-                  <td>
-                    <button onClick={() => handleDelete(row.id)}>
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Col>
+          <Button onClick={handleLogout} variant="danger">Cerrar sesión</Button>
+          <PropertyManageList />
+         </Col>
       </Row>
     </Layout>
   );
 };
 
-const Password = ({
+const Login = ({
   setIsAdmin,
 }: {
   setIsAdmin: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [pass, setPass] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleIngresar = () => {
-    if (pass === "Montevideo314") {
-      localStorage.setItem("isAdmin", "true");
-      setIsAdmin(true);
-    } else {
-      setError("Contraseña incorrecta!");
+  const handleLogin = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      localStorage.setItem('isAdmin', 'true'); // This is correct
+      setIsAdmin(true); // This is correct
+    } catch (error) {
+      if (error instanceof Error) {
+        setError("Login failed! " + error.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
+
 
   return (
     <Row>
       <Col>
-        <label htmlFor="">Contraseña: </label>
+        <label htmlFor="email">Email: </label>
         <br />
         <input
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          name="email"
+          id="email"
+        />
+        <br />
+        <label htmlFor="password">Password: </label>
+        <br />
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           type="password"
-          name="pass"
-          id="pass"
+          name="password"
+          id="password"
         />
         <br />
         <br />
-        <Button onClick={handleIngresar}>Ingresar</Button>
+        <Button onClick={handleLogin}>Login</Button>
         <br />
         <br />
-        <span style={{ color: "red" }}>{error}</span>
+        <span style={{ color: 'red' }}>{error}</span>
       </Col>
     </Row>
   );

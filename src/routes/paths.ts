@@ -6,6 +6,12 @@ export const Home = lazy(() =>
   })),
 );
 
+export const SubirPropiedad = lazy(() =>
+  import('../pages/SubirPropiedad').then((module) => ({
+    default: module.SubirPropiedad,
+  })),
+);
+
 export const Ubicacion = lazy(() =>
   import('../pages/Ubicacion').then((module) => ({
     default: module.Ubicacion,
