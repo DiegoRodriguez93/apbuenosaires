@@ -123,7 +123,19 @@
 
 .propertyDetails {
   font-size: 16px;
-  color: #777;
+  color: #6d6b6b;
+}
+
+.propertyCard a {
+  text-decoration: none; /* This will remove the underline from links */
+}
+
+.propertyInfo p {
+  text-decoration: none; /* This will remove the underline from links */
+}
+
+.propertyCard a, .propertyCard a:visited {
+  text-decoration: none;
 }
 
 @media (max-width: 1024px) {
