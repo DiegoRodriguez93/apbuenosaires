@@ -24,7 +24,7 @@ export const Step4 = () => {
         <p>Precio total: USD {price}</p>
       </div>
       <h3>Realiza el pago</h3>
-          <PaypalButtonDiv price={price} />
+          <PaypalButtonDiv price={price} title={title} startDate={startDate} endDate={endDate} guests={guests} />
         </Col>
         <Col md={2} sm={12}></Col>
       </Row>

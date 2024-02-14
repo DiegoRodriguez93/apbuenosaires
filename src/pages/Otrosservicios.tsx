@@ -11,6 +11,8 @@ export const Otrosservicios = () => {
       <p>- Traslados desde Terminal de Autobuses Retiro, Aeropuertos Jorge Newbery o Ezeiza,<br/>Terminales Fluviales como Buquebus o Colonia Express.<br/><br/>
       - Compra de bebidas o alimentos para el momento de tu llegada.<br/><br/>
       - Recepción de compras on line previas a tu fecha de ingreso.<br/><br/>
+      - Cambio de divisas.<br/><br/>
+      - Todas las informaciones sobre Buenos Aires, no dudes en consultarnos!<br/><br/>
       </p>
       <div className="imasServicios">
       <img src={serv01IMG} alt='Traslados'/><img src={serv02IMG} alt='Compras'/><img src={serv03IMG} alt='Recepción de correo'/>

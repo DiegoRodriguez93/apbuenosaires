@@ -26,10 +26,10 @@ export const Routes = () => {
     <Suspense fallback={<Fallback />}>
       <RoutesReactRouterDom>
         <Route path="/" element={<Home />} />
-        <Route path="/ubicacion" element={<Ubicacion />} />
-        <Route path="/comodidades" element={<Comodidades />} />
+        <Route path="/ubicaciones" element={<Ubicacion />} />
+        <Route path="/nuestra-propuesta" element={<Comodidades />} />
         <Route path="/fotos" element={<Fotos />} />
-        <Route path="/otrosservicios" element={<Otrosservicios />} />
+        <Route path="/otros-servicios" element={<Otrosservicios />} />
         <Route path="/reservas" element={<Reservas />} />
         <Route path="/administrador" element={<Administrador />} />
         <Route path="/subir-propiedad" element={<SubirPropiedad />} />

@@ -5,7 +5,7 @@ export const Ubicacion = () => {
   return (
     <Layout>
     <div className="contenido">
-      <h1>Excelente ubicación</h1><br/>
+      <h1>Ubicaciones</h1><br/>
       <p>Emplazado en el barrio de Monserrat, ubicado en el tercer piso de la calle Santiago del Estero 661,<br/>
       sobre una calle céntrica pero tranquila,<b> a sólo 15 cuadras del Obelisco y a 10 minutos de Puerto Madero.</b><br/><br/>
 <b>Rápido acceso desde el momento de tu llegada, ya que se encuentra:</b><br/><br/>
