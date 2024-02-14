@@ -48,11 +48,10 @@
 
 
 .propertyList {
-  flex: 1;
+  justify-content: center;
   display: grid;
-  grid-template-columns: repeat(3, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, minmax(250px, 475px));
   grid-gap: 20px;
-  padding-left: 20px;
 }
 
 .loaderContainer {
