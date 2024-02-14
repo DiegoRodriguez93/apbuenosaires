@@ -7,7 +7,7 @@ export const Otrosservicios = () => {
   return (
     <Layout>
       <div className="contenido">
-      <h1>Consulte por otros servicios adicionales:</h1><br/>
+      <h2>Consulte por otros servicios adicionales:</h2><br/>
       <p>- Traslados desde Terminal de Autobuses Retiro, Aeropuertos Jorge Newbery o Ezeiza,<br/>Terminales Fluviales como Buquebus o Colonia Express.<br/><br/>
       - Compra de bebidas o alimentos para el momento de tu llegada.<br/><br/>
       - Recepción de compras on line previas a tu fecha de ingreso.<br/><br/>

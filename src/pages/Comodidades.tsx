@@ -5,8 +5,8 @@ export const Comodidades = () => {
   return (
     <Layout>
       <div className="contenido">
-      <h1>Bienvenidos a Buenos Aires</h1><br/>
-      <p>Ofrecemos alquileres temporarios en Buenos Aires.<br/><br/>
+      <h2>Nuestra Propuesta</h2><br/>
+      <p><strong>Ofrecemos alquileres temporarios en Buenos Aires.</strong><br/><br/>
 
       Hemos armado cada departamento poniendo mucha dedicación y esmero, pensando en todos los detalles e incluyendo
 todas las comodidades para que te sientas como en tu propia casa.<br/><br/>
