@@ -1,4 +1,4 @@
-import bgIMG from './obelisco.jpeg';
+import bgIMG from './obelisco.jpg';
 import "./background.css"
 
 const BackgroundImg = () => {

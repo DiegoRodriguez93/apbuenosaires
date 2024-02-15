@@ -5,11 +5,11 @@ export const Ubicacion = () => {
   return (
     <Layout>
 <div className="contenido">
-  <h2>En el barrio de Monserrat contamos con 3 apartamentos:</h2>
+  <h2>En el barrio de Montserrat contamos con 3 apartamentos:</h2>
   <p>2 de ellos están ubicados en la calle Santiago del Estero 661.<br/>
   El otro se encuentra a 400 metros de allí, en Santiago del Estero 1008.</p>
 
-  <p>Si te hospedas en los apartamentos de Monserrat estarás a 250 metros de la Avenida 9 de Julio, a menos de 2km del Obelisco
+  <p>Si te hospedas en los apartamentos de Montserrat estarás a 250 metros de la Avenida 9 de Julio, a menos de 2km del Obelisco
   y a pocos minutos de San Telmo, Puerto Madero y Recoleta, entre otros lugares a destacar.</p>
 
   <p><strong>Tendrás un rápido acceso desde el momento de tu llegada, ya que se encuentra aproximadamente a:<br/></strong>
