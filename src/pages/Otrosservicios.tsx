@@ -12,6 +12,7 @@ export const Otrosservicios = () => {
       - Compra de bebidas o alimentos para el momento de tu llegada.<br/><br/>
       - Recepción de compras on line previas a tu fecha de ingreso.<br/><br/>
       - Cambio de divisas.<br/><br/>
+      - Ofrecemos pagos directos en Uruguay y Brasil, otros países consultar!<br/><br/>
       - Todas las informaciones sobre Buenos Aires, no dudes en consultarnos!<br/><br/>
       </p>
       <div className="imasServicios">
