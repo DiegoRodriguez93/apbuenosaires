@@ -13,6 +13,9 @@ export const Navbar = () => {
   return (
     <BootstrapNavBar bg="light" expand="lg" variant="light" className="w-100">
           <Nav className="me-auto d-flex justify-content-center w-100">
+          <NavLink className={isActiveStyle} to="/" style={{ marginRight: '10px' }}>
+          Inicio
+        </NavLink>
           <NavLink className={isActiveStyle} to="/nuestra-propuesta" style={{ marginRight: '10px' }}>
           Nuestra propuesta
         </NavLink>

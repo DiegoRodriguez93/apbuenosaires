@@ -19,7 +19,7 @@ const PropertyList = ({ properties, loading }) => {
               />
               <div className={styles.propertyInfo}>
                 <h3 className={styles.propertyTitle} >{property.title || 'No Title'}</h3>
-                <p className={styles.propertyPrice} style={{ textDecoration: 'none' }}>{property.price ? `${property.price} USD Por noche` : 'Price not available'}</p>
+                <p className={styles.propertyPrice} style={{ textDecoration: 'none' }}>{property.price ? `A partir de ${property.price} USD Por noche` : 'Price not available'}</p>
                 <p className={styles.propertyDetails}>
                   {property.description 
                     ? (property.description.length > 100 
