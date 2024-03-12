@@ -1,5 +1,8 @@
 import { Layout } from '../components/Layout';
 import './generic.css';
+import serv01IMG from '../a1.jpg';
+import serv02IMG from '../a2.jpg';
+import serv03IMG from '../a3.jpg';
 
 export const Comodidades = () => {
   return (
@@ -17,6 +20,10 @@ Contamos con 3 apartamentos en el barrio de Montserrat(pegadito a San Telmo) par
 
 Te esperamos!
 <br/><br/></p>
+
+<div className="imasServicios">
+      <img src={serv01IMG} alt='Traslados'/><img src={serv02IMG} alt='Compras'/><img src={serv03IMG} alt='Recepción de correo'/>
+      </div>
 </div>
     </Layout>
   );

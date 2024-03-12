@@ -1,6 +1,8 @@
 import { Layout } from '../components/Layout';
 import './generic.css';
-import mapaWebIMG from '../mapaWeb.jpg';
+import serv01IMG from '../ubi1.jpg';
+import serv02IMG from '../ubi2.jpg';
+import serv03IMG from '../ubi3.jpg';
 export const Ubicacion = () => {
   return (
     <Layout>
@@ -11,6 +13,10 @@ export const Ubicacion = () => {
 
   <p>Si te hospedas en los apartamentos de Montserrat estarás a 250 metros de la Avenida 9 de Julio, a menos de 2km del Obelisco
   y a pocos minutos de San Telmo, Puerto Madero y Recoleta, entre otros lugares a destacar.</p>
+
+  <div className="imasServicios">
+      <img src={serv01IMG} alt='Traslados'/><img src={serv02IMG} alt='Compras'/><img src={serv03IMG} alt='Recepción de correo'/>
+      </div>
 
   <p><strong>Tendrás un rápido acceso desde el momento de tu llegada, ya que se encuentra aproximadamente a:<br/></strong>
   25 minutos del Aeroparque Internacional Jorge Newbery<br/>
@@ -67,6 +73,7 @@ Parque Centenario (1,7 km): a 8 min en auto // a 18 min caminando<br/>
 Jardín Botánico (2km): a 10 min en auto // a 22 min caminando<br/>
 Plaza Italia (2km): a 10 min en auto // a 22 min caminando<br/>
   A menos de 3 km puedes visitar: El Rosedal, el Planetario, el Jardín Japonés, el Teatro Colón, Galerías Pacífico, el Obelisco.</p>
+ 
 </div>
 
 
