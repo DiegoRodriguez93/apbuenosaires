@@ -3,6 +3,8 @@ import './generic.css';
 import serv01IMG from '../ubi1.jpg';
 import serv02IMG from '../ubi2.jpg';
 import serv03IMG from '../ubi3.jpg';
+import serv04IMG from '../ubi4.jpg';
+
 export const Ubicacion = () => {
   return (
     <Layout>
@@ -15,7 +17,7 @@ export const Ubicacion = () => {
   y a pocos minutos de San Telmo, Puerto Madero y Recoleta, entre otros lugares a destacar.</p>
 
   <div className="imasServicios">
-      <img src={serv01IMG} alt='Traslados'/><img src={serv02IMG} alt='Compras'/><img src={serv03IMG} alt='Recepción de correo'/>
+      <img src={serv01IMG} alt='Traslados'/><img src={serv02IMG} alt='Compras'/>
       </div>
 
   <p><strong>Tendrás un rápido acceso desde el momento de tu llegada, ya que se encuentra aproximadamente a:<br/></strong>
@@ -36,6 +38,11 @@ export const Ubicacion = () => {
   A 400 metros de la Facultad de Ciencias Sociales de la UBA (Universidad de Buenos Aires) ó a 50 metros desde el otro apartamento.<br/>
   A 500 / 800 metros de UAI (Universidad Abierta Interamericana)<br/>
   A menos de 2km de la Facultad de Ingeniería y de Universidad Católica Argentina</p>
+
+  <div className="imasServicios">
+      <img src={serv03IMG} alt='Recepción de correo'/><img src={serv04IMG} alt='Recepción de correo'/>
+
+      </div>
 
   <p><strong>Algunas opciones muy cercanas e interesantes para que vayas a conocer:<br/></strong>
   Palacio Barolo (1,2 km): a 5 min en auto // a 11 min caminando<br/>
