@@ -52,6 +52,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(250px, 475px));
   grid-gap: 20px;
+  padding-bottom: 40px;
 }
 
 .loaderContainer {

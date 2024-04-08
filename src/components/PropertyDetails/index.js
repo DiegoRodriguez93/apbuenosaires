@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import styles from './PropertyDetails.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faRuler, faDollar, faHandHoldingDollar, faCity, faAlignCenter } from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faCar, faRuler, faDollarSign , faHandHoldingDollar, faCity, faAlignCenter } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -182,6 +182,7 @@ const handleReservation = () => {
             { icon: faBath, label: `Baños: ${property.bathrooms || 'Baños Not Available'}` },
             { icon: faBed, label: `Habitaciones: ${property.bedrooms || 'Habitaciones Not Available'}` },
             { icon: faCity, label: `Barrio: ${property.neighborhood || 'Barrio no disponible'}` },
+            { icon: faDollarSign, label: `A partir de ${property.price || 'Barrio no disponible'} USD por noche` },
           ].map(({ icon, label }) => (
             <p key={label}>
               <div className={styles.iconTextWrapper}>

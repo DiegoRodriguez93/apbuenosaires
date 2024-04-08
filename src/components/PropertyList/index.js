@@ -7,6 +7,9 @@ const PropertyList = ({ properties, loading }) => {
     return <div>Loading...</div>;
   }
 
+ // <p className={styles.propertyPrice} style={{ textDecoration: 'none' }}>{property.price ? `A partir de ${property.price} USD por noche` : 'Price not available'}</p>
+
+
   return (
     <div className={styles.propertyList}>
       {properties.map((property) => (
@@ -19,7 +22,6 @@ const PropertyList = ({ properties, loading }) => {
               />
               <div className={styles.propertyInfo}>
                 <h3 className={styles.propertyTitle} >{property.title || 'No Title'}</h3>
-                <p className={styles.propertyPrice} style={{ textDecoration: 'none' }}>{property.price ? `A partir de ${property.price} USD por noche` : 'Price not available'}</p>
                 <p className={styles.propertyDetails}>
                   {property.description 
                     ? (property.description.length > 100 

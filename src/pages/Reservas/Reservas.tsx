@@ -97,7 +97,6 @@ export const Reservas = () => {
   return (
     <Layout>
       <div style={{ textAlign: 'center' }}>
-        <h3>Reservas</h3>
         {
           FORM_STEPS(
             step,
