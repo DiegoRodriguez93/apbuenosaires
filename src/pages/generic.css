@@ -12,10 +12,10 @@
 }
 
 .imasServicios img {
-    max-width: 400px; /* Adjust this value to control the width of the images */
+    max-width: 500px; /* Adjust this value to control the width of the images */
     max-height: 400px; /* Adjust this value to control the height of the images */
     width: auto; /* This will ensure the width of the image scales with the height, maintaining the aspect ratio */
     height: auto; /* This will ensure the height of the image scales with the width, maintaining the aspect ratio */
-    padding: 10px;
-    margin-bottom: 80px;
+    padding: 20px;
+    margin-bottom: 30px;
 }
