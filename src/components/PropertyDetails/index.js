@@ -94,8 +94,17 @@ const handleReservation = () => {
     thumbnail: imageUrl,
   })) || [];
 
-  const isDayBlocked = day =>
-  blockedDates.some(blockedDate => day.isSame(moment(blockedDate), 'day'));
+  const isDayBlocked = day => {
+    const sixMonthsFromNow = moment().add(6, 'months');
+    
+    // Check if the day is within the blockedDates array
+    const isBlockedDate = blockedDates.some(blockedDate => day.isSame(moment(blockedDate), 'day'));
+  
+    // Check if the day is more than 6 months in the future
+    const isAfterSixMonths = day.isAfter(sixMonthsFromNow, 'day');
+    
+    return isBlockedDate || isAfterSixMonths;
+  };
 
   const isRangeIncludingBlockedDates = (startDate, endDate, blockedDates) => {
     let currentDate = moment(startDate);
