@@ -135,17 +135,40 @@ const EditPropertyForm = ({ property, onSubmit }) => {
     setSelectedDates(range);
   };
 
+  const handleBlockedDaySelection = (day) => {
+    // Determine if we're setting the start or end date based on the current focus
+    if (!focusedInput || focusedInput === 'startDate') {
+      // Manually set the startDate and pretend like it was typed in
+      const newStartDate = day;
+      setStartDate(newStartDate);
+      // If you need to trigger handleDateChange logic, do it here
+      handleDateChange({ startDate: newStartDate, endDate });
+  
+      // Advance focus to the endDate
+      setFocusedInput('endDate');
+    } else if (focusedInput === 'endDate') {
+      // Manually set the endDate and pretend like it was typed in
+      const newEndDate = day;
+      setEndDate(newEndDate);
+      // Trigger any logic that depends on the endDate being set
+      handleDateChange({ startDate, endDate: newEndDate });
+  
+      // Optionally reset focus or set it to startDate
+      setFocusedInput(null); // or 'startDate'
+    }
+  };
+
 
   const getDatesInRange = (startDate, endDate) => {
     const dateArray = [];
-    let currentDate = moment(startDate);
-    const stopDate = moment(endDate);
-    while (currentDate <= stopDate) {
-      dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
-      currentDate = moment(currentDate).add(1, 'days');
+    let currentDate = moment(startDate).startOf('day');
+    const stopDate = moment(endDate).startOf('day');
+    while (currentDate.diff(stopDate, 'days') <= 0) {
+        dateArray.push(currentDate.format('YYYY-MM-DD'));
+        currentDate.add(1, 'days');
     }
     return dateArray;
-  };
+};
 
   const handleBlockDates = async () => {
     setBlockedDates([...blockedDates, ...selectedDates]);
@@ -198,26 +221,31 @@ const EditPropertyForm = ({ property, onSubmit }) => {
 
     
     <div className={styles.formContainer}>
-      <div>
+   <div>
   <DateRangePicker
-    key={blockedDates.length}
-    startDate={startDate}
-    startDateId="start_date_id"
-    endDate={endDate}
-    endDateId="end_date_id"
-    onDatesChange={handleDateChange}
-    focusedInput={focusedInput}
-    onFocusChange={focusedInput => setFocusedInput(focusedInput)}
-    numberOfMonths={1}
-    isDayBlocked={day => blockedDates.some(date => day.isSame(moment(date), 'day'))}
+    minimumNights={0}
+    key={blockedDates.length} // This key will force the component to re-render when blockedDates changes
+    startDate={startDate} // The currently selected start date
+    startDateId="start_date_id" // A string identifier for the start date input
+    endDate={endDate} // The currently selected end date
+    endDateId="end_date_id" // A string identifier for the end date input
+    onDatesChange={handleDateChange} // Handler for date changes
+    focusedInput={focusedInput} // The input currently in focus (startDate or endDate)
+    onFocusChange={focusedInput => setFocusedInput(focusedInput)} // Handler for changing focus between inputs
+    numberOfMonths={1} // Number of calendar months to show
+    isDayBlocked={day => blockedDates.some(date => day.isSame(moment(date), 'day'))} // Function to determine if a day is blocked
     renderDayContents={(day) => {
-    const isBlocked = blockedDates.some((blockedDate) =>
-      day.isSame(moment(blockedDate), 'day')
-    );
-    return (
-      <div className={isBlocked ? "blockedDate" : ""}>
-        {day.format("D")}
-      </div>
+      const isBlocked = blockedDates.some(blockedDate =>
+        day.isSame(moment(blockedDate), 'day')
+      );
+      return (
+        <div
+          onClick={() => isBlocked && handleBlockedDaySelection(day)}
+          // You may want to add a class or style for cursor to indicate it's clickable
+          style={{ cursor: isBlocked ? 'pointer' : 'default' }}
+        >
+          {day.format("D")}
+        </div>
       );
     }}
   />
