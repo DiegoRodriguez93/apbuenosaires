@@ -26,7 +26,7 @@ export const Navbar = () => {
         <NavLink className={isActiveStyle} to="/otros-servicios" style={{ marginRight: '10px' }}>
           Otros servicios
         </NavLink>
-        <NavLink className={isActiveStyle} to="/reservas">
+        <NavLink className={isActiveStyle} to="/ver-apartamentos">
           Ver Apartamentos
         </NavLink>
           </Nav>

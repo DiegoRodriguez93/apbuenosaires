@@ -30,7 +30,7 @@ export const Routes = () => {
         <Route path="/nuestra-propuesta" element={<Comodidades />} />
         <Route path="/fotos" element={<Fotos />} />
         <Route path="/otros-servicios" element={<Otrosservicios />} />
-        <Route path="/reservas" element={<Reservas />} />
+        <Route path="/ver-apartamentos" element={<Reservas />} />
         <Route path="/administrador" element={<Administrador />} />
         <Route path="/subir-propiedad" element={<SubirPropiedad />} />
         <Route path="/properties/:propertyId" element={<PropertyId />} /> 
