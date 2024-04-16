@@ -10,6 +10,7 @@ export const Otrosservicios = () => {
       <h2>Consulte por otros servicios adicionales:</h2><br/>
       <p>- Traslados desde Terminal de Autobuses Retiro, Aeropuertos Jorge Newbery o Ezeiza,<br/>Terminales Fluviales como Buquebus o Colonia Express.<br/><br/>
       - Compra de bebidas o alimentos para el momento de tu llegada.<br/><br/>
+      - Venta de entradas para partidos de River O Boca.<br/><br/>
       - Recepción de compras on line previas a tu fecha de ingreso.<br/><br/>
       - Cambio de divisas.<br/><br/>
       - Ofrecemos pagos directos en Uruguay y Brasil, otros países consultar!<br/><br/>
