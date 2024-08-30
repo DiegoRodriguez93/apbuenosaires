@@ -32,6 +32,11 @@ export const Otrosservicios = lazy(() =>
     default: module.Otrosservicios,
   })),
 );
+export const Valoraciones = lazy(() =>
+  import('../pages/Valoraciones').then((module) => ({
+    default: module.Valoraciones,
+  })),
+);
 export const Reservas = lazy(() =>
   import('../pages/Reservas/Reservas').then((module) => ({
     default: module.Reservas,

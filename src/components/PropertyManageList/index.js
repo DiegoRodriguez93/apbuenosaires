@@ -34,7 +34,12 @@ const PropertyManageList = () => {
         {properties.map(property => (
           <li key={property.id}>
             {property.title}
-            <button onClick={() => handleEdit(property.id)}>Administrar</button>
+            <button 
+              onClick={() => handleEdit(property.id)} 
+              style={{ marginLeft: '10px' }} // Add some margin to the left
+            >
+              Administrar
+            </button>
           </li>
         ))}
       </ul>

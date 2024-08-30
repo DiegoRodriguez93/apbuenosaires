@@ -9,6 +9,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import PropertyManageList from '../../components/PropertyManageList';
 import { Timestamp, collection, getDocs } from "firebase/firestore";
 import { ToastItem } from 'react-toastify';
+import DiscountCodeManager from '../../components/DiscountCodeManager'; // Import the new component
+
 
 
 type BlockNewDate = {
@@ -126,6 +128,7 @@ export const Administrador = () => {
               </tbody>
             </table>
           </div>
+           <DiscountCodeManager />
          </Col>
       </Row>
     </Layout>

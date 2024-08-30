@@ -16,6 +16,7 @@ import {
   Reservas,
   Administrador,
   SubirPropiedad,
+  Valoraciones,
 } from "./paths";
 import PropertyId, { EditProperty } from "../pages/property/edit/[propertyId]";
 import SingleProperty from "../pages/property/[propertyId]";
@@ -30,6 +31,7 @@ export const Routes = () => {
         <Route path="/nuestra-propuesta" element={<Comodidades />} />
         <Route path="/fotos" element={<Fotos />} />
         <Route path="/otros-servicios" element={<Otrosservicios />} />
+        <Route path="/valoraciones" element={<Valoraciones />} />
         <Route path="/ver-apartamentos" element={<Reservas />} />
         <Route path="/administrador" element={<Administrador />} />
         <Route path="/subir-propiedad" element={<SubirPropiedad />} />
