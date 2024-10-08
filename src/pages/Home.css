@@ -1,0 +1,112 @@
+/* Home.css */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;400;500&display=swap');
+
+/* Reset default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* Home container */
+.home-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styles */
+.home-container h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2.0em;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #2c3e50;
+}
+
+/* Paragraph styles */
+.home-container p {
+  font-size: 1.15em;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  color: #555555;
+}
+
+/* Link styles */
+.home-container a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.home-container a:hover {
+  text-decoration: underline;
+}
+
+/* Video container */
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+/* Responsive iframe */
+.video-container iframe {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* Button styles (if you have buttons) */
+.btn {
+  background-color: #3498db;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .home-container {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  .home-container h2 {
+    font-size: 2em;
+  }
+
+  .home-container p {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-container h2 {
+    font-size: 1.5em;
+  }
+
+  .home-container p {
+    font-size: 0.95em;
+  }
+}

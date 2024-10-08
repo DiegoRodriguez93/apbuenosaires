@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Col, Row, Form, Button } from 'react-bootstrap';
 import PaypalButtonDiv from '../../components/Paypal';
-import './steps.css';
+import '../generic.css'; // Import the generic styles
 import { Layout } from '../../components/Layout';
 import { useLocation } from 'react-router-dom';
 import { db } from '../../firebase'; // Import Firebase
@@ -73,52 +72,52 @@ export const Step4 = () => {
   };
 
   return (
-    <>
-      <Layout>
-        <Row>
-          <Col md={2} sm={12}></Col>
-          <Col md={8} sm={12}>
-            <h3>Detalles de su reserva</h3>
-            <div>
-              <p>Propiedad: {title}</p>
-              <p>Fechas: {startDate} hasta: {endDate}</p>
-              <p>Huéspedes: {guests}</p>
-              <p>Precio total: USD {finalPrice}</p>
-            </div>
+    <Layout>
+      <div className="page-container form-container">
+        <h3>Detalles de su reserva</h3>
+        <div>
+          <p><strong>Propiedad:</strong> {title}</p>
+          <p><strong>Fechas:</strong> {startDate} hasta {endDate}</p>
+          <p><strong>Huéspedes:</strong> {guests}</p>
+          <p><strong>Precio total:</strong> USD {finalPrice.toFixed(2)}</p>
+        </div>
 
-            <h3>Ingrese su código de descuento si tiene uno</h3>
-            <Form>
-              <Form.Group controlId="discountCode">
-                <Form.Label>Código de descuento:</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={discountCode}
-                  onChange={(e) => setDiscountCode(e.target.value)}
-                  disabled={isApplyingDiscount || discountApplied} // Disable input if discount is applied
-                />
-              </Form.Group>
-              {!discountApplied ? ( // Show button if discount is not applied
-                <Button onClick={applyDiscount} disabled={isApplyingDiscount} style={{ marginTop: '10px' }}>
-                  {isApplyingDiscount ? 'Aplicando...' : 'Aplicar código'}
-                </Button>
-              ) : ( // Show message if discount is applied
-                <p style={{ color: 'green' }}>¡El descuento ha sido aplicado!</p>
-              )}
-              {error && <p style={{ color: 'red' }}>{error}</p>}
-            </Form>
+        <h3>Ingrese su código de descuento si tiene uno</h3>
+        <div>
+          <label htmlFor="discountCode">Código de descuento:</label>
+          <input
+            type="text"
+            id="discountCode"
+            value={discountCode}
+            onChange={(e) => setDiscountCode(e.target.value)}
+            disabled={isApplyingDiscount || discountApplied}
+          />
+          {!discountApplied ? (
+            <button
+              className="apply-discount-button" // Add this class
+              onClick={applyDiscount}
+              disabled={isApplyingDiscount}
+              style={{ marginTop: '10px' }}
+            >
+              {isApplyingDiscount ? 'Aplicando...' : 'Aplicar código'}
+            </button>
+          ) : (
+            <p className="success-message">¡El descuento ha sido aplicado!</p>
+          )}
+          {error && <p className="error-message">{error}</p>}
+        </div>
 
-            <h3 style={{ marginTop: '10px' }}>Realiza el pago</h3>
-            <PaypalButtonDiv
-              price={finalPrice} // Use the discounted final price
-              title={title}
-              startDate={startDate}
-              endDate={endDate}
-              guests={guests}
-            />
-          </Col>
-          <Col md={2} sm={12}></Col>
-        </Row>
-      </Layout>
-    </>
+        <div className="payment-section">
+          <h3>Realiza el pago</h3>
+          <PaypalButtonDiv 
+            price={finalPrice}
+            title={title}
+            startDate={startDate}
+            endDate={endDate}
+            guests={guests}
+          />
+        </div>
+      </div>
+    </Layout>
   );
 };

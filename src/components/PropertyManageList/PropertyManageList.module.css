@@ -1,0 +1,44 @@
+/* PropertyManageList.module.css */
+
+.propertiesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 20px;
+  }
+  
+  .propertyItem {
+    border: 1px solid #ccc;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+  }
+  
+  .propertyHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .manageButton {
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .manageButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .calendarContainer {
+    max-width: 100%;
+  }
+  
+  .CalendarDay__blocked_calendar {
+    background: red;
+    color: white;
+  }
+  

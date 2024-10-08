@@ -40,7 +40,7 @@ const PaypalButtonDiv: React.FC<PaypalButtonDivProps> = ({ price, title, startDa
     };
 
     return (
-      <div className="input-group cien">
+      <div className="paypal-button-container">
         <div>
           <PayPalButton
             amount={price}
@@ -53,7 +53,8 @@ const PaypalButtonDiv: React.FC<PaypalButtonDivProps> = ({ price, title, startDa
             }}
             options={{
               clientId: CLIENT_ID,
-              currency: 'USD'
+              currency: 'USD',
+              locale: 'es_ES'
             }}
             shippingPreference="NO_SHIPPING"
           />

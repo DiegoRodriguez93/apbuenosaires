@@ -25,7 +25,7 @@ export const Step1: FC<Step1Type> = ({ step, setStep, apto, setApto }) => {
 
   return (
     <>
-    <h3 style={{ padding: '10px' }}>Seleccioná el apartamento de tu interés</h3>
+      <h2 className="step-heading">Seleccioná el apartamento de tu interés</h2>
     
       <MainContentPropertyList />
 
