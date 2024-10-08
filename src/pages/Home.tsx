@@ -21,10 +21,6 @@ export const Home = () => {
           internacional y la calidad de sus servicios turísticos.
           <br />
           <br />
-          <a href="https://www.facebook.com/people/AP-Buenos-Aires-Alquiler-Temporario/61564429754942/">
-            Visita nuestra página en Facebook
-          </a>
-          <br />
 
           <a href="https://www.facebook.com/GCBA">
             Visita la página de la Ciudad de Buenos Aires en Facebook

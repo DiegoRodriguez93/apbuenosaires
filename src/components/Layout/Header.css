@@ -33,6 +33,47 @@
       margin-bottom: 10px; /* Add some space between logo and contact info */
     }
   }
+
+  /* Existing styles... */
+
+/* Add styles for the social media icons */
+.social-logo {
+  margin: 0 5px; /* Space between icons */
+  vertical-align: middle; /* Align with the text */
+  width: 30px; /* Control size */
+  height: auto;
+}
+
+/* Optional: Adjust hover effect */
+.social-logo:hover {
+  opacity: 0.8;
+}
+
+/* Adjust .header-contact to wrap content if needed */
+.header-contact {
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-contact a {
+  display: inline-flex;
+  align-items: center;
+  margin: 5px;
+  text-decoration: none;
+}
+
+/* For smaller screens */
+@media (max-width: 767px) {
+  .header-contact a {
+    font-size: 0.9rem;
+    display: block;
+    margin: 5px auto;
+  }
+}
+
   
   /* Fine-tune adjustments for smaller devices */
   @media (max-width: 767px) {
