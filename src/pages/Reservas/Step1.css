@@ -1,0 +1,49 @@
+/* Step1.css */
+
+/* Airbnb Section */
+.airbnb-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.airbnb-section h2 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.airbnb-section p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* Airbnb Grid */
+.airbnb-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.airbnb-grid .airbnb-embed-frame {
+  flex: 1 1 calc(25% - 40px); /* 4 columns with gap */
+  max-width: calc(25% - 40px);
+  min-width: 250px;
+  height: 300px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 992px) {
+  .airbnb-grid .airbnb-embed-frame {
+    flex: 1 1 calc(50% - 40px); /* 2 columns */
+    max-width: calc(50% - 40px);
+  }
+}
+
+@media (max-width: 600px) {
+  .airbnb-grid .airbnb-embed-frame {
+    flex: 1 1 100%; /* 1 column */
+    max-width: 100%;
+  }
+}

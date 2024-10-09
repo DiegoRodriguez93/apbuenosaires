@@ -1,25 +1,90 @@
+import { useEffect } from 'react';
 import { Layout } from '../components/Layout';
-import './generic.css';
-import serv01IMG from '../servicios01.jpg';
-import serv02IMG from '../servicios02.jpg';
-import serv03IMG from '../servicios03.jpg';
+import './generic.css'; // Ensure this path is correct
+import airbnbProfileImage from './perfilAirbnb.png'; // Adjust the path as needed
+
+
+declare global {
+  interface Window {
+    AirbnbAPI?: {
+      bootstrap: () => void;
+    };
+  }
+}
+
 export const Valoraciones = () => {
+  // List of Airbnb apartment IDs
+  const apartmentIds = [
+    '1071821399648210904',
+    '913639485717411250',
+    '1125452717680763885',
+    '999155290396663744',
+  ];
+
+  // Load Airbnb SDK when the component mounts
+  useEffect(() => {
+    const airbnbScriptId = 'airbnb-sdk';
+
+    if (!document.getElementById(airbnbScriptId)) {
+      const script = document.createElement('script');
+      script.id = airbnbScriptId;
+      script.src = 'https://es.airbnb.com/embeddable/airbnb_jssdk';
+      script.async = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        if ((window as any).AirbnbAPI) {
+          (window as any).AirbnbAPI.bootstrap();
+        }
+      };
+    } else {
+      if ((window as any).AirbnbAPI) {
+        (window as any).AirbnbAPI.bootstrap();
+      }
+    }
+  }, []);
+
   return (
     <Layout>
-      <div className="contenido">
-      <h2>Consulte por otros servicios adicionales:</h2><br/>
-      <p>- Traslados desde Terminal de Autobuses Retiro, Aeropuertos Jorge Newbery o Ezeiza,<br/>Terminales Fluviales como Buquebus o Colonia Express.<br/><br/>
-      - Compra de bebidas o alimentos para el momento de tu llegada.<br/><br/>
-      - Venta de entradas para partidos de River O Boca.<br/><br/>
-      - Recepción de compras on line previas a tu fecha de ingreso.<br/><br/>
-      - Cambio de divisas.<br/><br/>
-      - Ofrecemos pagos directos en Uruguay y Brasil, otros países consultar!<br/><br/>
-      - Todas las informaciones sobre Buenos Aires, no dudes en consultarnos!<br/><br/>
-      </p>
-      <div className="imasServicios">
-      <img src={serv01IMG} alt='Traslados'/><img src={serv02IMG} alt='Compras'/><img src={serv03IMG} alt='Recepción de correo'/>
-      </div>
-      </div>
+      <section className="airbnb-section">
+        <h2>Ve nuestros apartamentos en Airbnb</h2>
+        <p>Puedes ver nuestras reseñas y más en nuestras publicaciones de Airbnb o nuestro perfil!</p>
+
+        {/* Airbnb Profile Image Link */}
+        <a
+          href="https://www.airbnb.com.ar/users/show/91054616"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src={airbnbProfileImage}
+            alt="Visita nuestro perfil en Airbnb"
+            className="airbnb-profile-image"
+          />
+        </a>
+
+        <div className="airbnb-grid">
+          {apartmentIds.map((id) => (
+            <div
+              key={id}
+              className="airbnb-embed-frame"
+              data-id={id}
+              data-view="home"
+              data-locale="es" // Set locale to Spanish
+              data-hide-price="true"
+              style={{ margin: 'auto' }} // Height handled in CSS
+            >
+              <a
+                href={`https://es.airbnb.com/rooms/${id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ver en Airbnb
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
     </Layout>
   );
 };

@@ -29,6 +29,10 @@ export const Navbar = () => {
         <NavLink className={isActiveStyle} to="/ver-apartamentos">
           Ver Apartamentos
         </NavLink>
+
+        <NavLink className={isActiveStyle} to="/valoraciones">
+          Valoraciones
+        </NavLink>
           </Nav>
       </BootstrapNavBar>
   );

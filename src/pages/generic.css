@@ -47,16 +47,68 @@ body {
   color: #2c3e50;
 }
 
-/* Heading styles */
-.page-container h2 {
+
+  /* Airbnb Section */
+.airbnb-section {
+  padding: 40px 10px; /* Reduced side padding */
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.airbnb-section h2 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 2.0em;
+  font-size: 2em;
   margin-bottom: 20px;
-  text-align: center;
   color: #2c3e50;
 }
 
+.airbnb-section p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+/* Airbnb Grid Styles */
+.airbnb-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+}
+
+.airbnb-profile-image {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.airbnb-profile-image:hover {
+  transform: scale(1.05);
+}
+
+.airbnb-grid .airbnb-embed-frame {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box; 
+  overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .airbnb-section {
+    padding: 20px 5px; /* Further reduce padding on small screens */
+  }
+
+  .airbnb-grid .airbnb-embed-frame {
+    height: 800px; /* Adjust height for mobile */
+  }
+}
+
+
+/* Heading styles */
+.page-container h2,
 .home-container h2 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
@@ -101,7 +153,6 @@ body {
   object-fit: cover;
 }
 
-
 /* List styles */
 .page-container ul {
   list-style-type: disc;
@@ -113,81 +164,81 @@ body {
   margin-bottom: 10px;
 }
 
+/* Form styles */
 .form-container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
-  }
-  
-  .form-container h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 1.8em;
-    margin-bottom: 20px;
-    color: #2c3e50;
-  }
-  
-  .form-container p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    margin-bottom: 15px;
-    color: #555555;
-  }
-  
-  .form-container label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-  
-  .form-container input[type="text"],
-  .form-container input[type="number"],
-  .form-container select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    font-size: 1em;
-  }
-  
-  .apply-discount-button {
-    background-color: #3498db;
-    color: #ffffff;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .apply-discount-button:hover {
-    background-color: #2980b9;
-  }
-  
-  .form-container .error-message {
-    color: red;
-    margin-top: 10px;
-  }
-  
-  .form-container .success-message {
-    color: green;
-    margin-top: 10px;
-  }
-  
-  .payment-section {
-    margin-top: 30px;
-  }
-  
-  .payment-section h3 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 1.8em;
-    margin-bottom: 20px;
-    color: #2c3e50;
-  }
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
 
+.form-container h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.form-container p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #555555;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.apply-discount-button {
+  background-color: #3498db;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.apply-discount-button:hover {
+  background-color: #2980b9;
+}
+
+.form-container .error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.form-container .success-message {
+  color: green;
+  margin-top: 10px;
+}
+
+.payment-section {
+  margin-top: 30px;
+}
+
+.payment-section h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
 
 /* Responsive design */
 @media (max-width: 768px) {
