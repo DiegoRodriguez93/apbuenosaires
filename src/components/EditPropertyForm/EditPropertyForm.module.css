@@ -1,17 +1,36 @@
-.formContainer {
+
+
+  .dayCell {
+    width: 36px;
+    height: 36px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding-top: 100px;
-    padding-bottom: 50px;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
   }
-
-
-  .blockedDate {
-    background-color: #ff6b6b !important; 
-    color: white; 
+  
+  .dayCell:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
-
+  
+  /* Yellow background for start/end dates */
+  .singleNightBlocked {
+    background-color: #ffd666; /* Yellow */
+    color: black;
+    cursor: pointer; /* Indicates it's interactive */
+    border: 2px solid #ffc107; /* Optional: Adds a border for emphasis */
+  }
+  
+  .overlappingBlocked {
+    background-color: purple; /* Purple */
+    color: white;
+    cursor: not-allowed; /* Indicates it's not interactive */
+    /* No additional CSS changes as per your request */
+  }
+  
+  /* Blocked Date Ranges Section */
   .blockedDateRanges {
     margin-top: 20px;
   }
@@ -21,6 +40,10 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
   }
   
   .unblockButton {
@@ -30,12 +53,38 @@
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s;
   }
   
   .unblockButton:hover {
     background-color: #ff7875;
   }
- 
+  
+  /* Block Button */
+  .blockButton {
+    margin-top: 10px;
+    background-color: #1890ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .blockButton:hover {
+    background-color: #40a9ff;
+  }
+
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 50px;
+  }
+
+  
   .form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

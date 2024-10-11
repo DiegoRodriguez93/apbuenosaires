@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import styles from './PropertyDetails.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBed, faBath, faCar, faRuler, faDollarSign , faHandHoldingDollar, faCity, faAlignCenter } from '@fortawesome/free-solid-svg-icons';
+import { faBed, faBath, faRuler, faDollarSign, faCity } from '@fortawesome/free-solid-svg-icons';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -14,7 +14,6 @@ import 'moment/locale/es'; // Import Spanish locale
 import { db } from '../../firebase'; // Ensure you have this import if you're using Firebase
 import { doc, getDoc } from 'firebase/firestore'; // Import Firestore functions
 import { useNavigate } from 'react-router-dom';
-
 
 const PropertyMap = dynamic(() => import('../PropertyMap'), {
   ssr: false,
@@ -29,25 +28,23 @@ const PropertyDetails = ({ property }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [focusedInput, setFocusedInput] = useState(null);
-  const [blockedDates, setBlockedDates] = useState([]);
+  const [blockedDateRanges, setBlockedDateRanges] = useState([]);
   const [adults, setAdults] = useState(1); // Start with 1 adult by default
-const [children, setChildren] = useState(0);
-const [infants, setInfants] = useState(0);
+  const [children, setChildren] = useState(0);
+  const [infants, setInfants] = useState(0);
 
-const handleReservation = () => {
-  navigate('/payment', {
-    state: {
-      price: totalPrice,
-      startDate: startDate.format('DD-MM-YYYY'), // Format the date
-      endDate: endDate.format('DD-MM-YYYY'), // Format the date
-      guests: adults + children + infants, // Combining adults and children for total guests
-      title: property.title,
-      // Include any other details you need
-    }
-  });
-};
-
-
+  const handleReservation = () => {
+    navigate('/payment', {
+      state: {
+        price: totalPrice,
+        startDate: startDate.format('DD-MM-YYYY'), // Format the date
+        endDate: endDate.format('DD-MM-YYYY'), // Format the date
+        guests: adults + children + infants, // Combining adults and children for total guests
+        title: property.title,
+        // Include any other details you need
+      }
+    });
+  };
 
   useEffect(() => {
     const fetchBlockedDates = async () => {
@@ -56,7 +53,7 @@ const handleReservation = () => {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          setBlockedDates(data.blockedDates || []);
+          setBlockedDateRanges(data.blockedDateRanges || []);
         } else {
           console.log("No such property!");
         }
@@ -69,6 +66,59 @@ const handleReservation = () => {
       setCurrentURL(window.location.href);
     }
   }, [property]);
+
+  // Identify single-night blocked dates
+  const singleNightBlockedDates = useMemo(() => {
+    return blockedDateRanges
+      .filter(range => moment(range.end).diff(moment(range.start), 'days') === 1)
+      .map(range => moment(range.start));
+  }, [blockedDateRanges]);
+
+  // Collect all internal blocked dates (excluding start and end dates)
+  const allBlockedDates = useMemo(() => {
+    const dates = new Set();
+
+    blockedDateRanges.forEach(range => {
+      const rangeDuration = moment(range.end).diff(moment(range.start), 'days');
+
+      if (rangeDuration > 1) {
+        // Multi-night reservation: block internal dates only
+        let current = moment(range.start).add(1, 'days');
+        while (current.isBefore(moment(range.end), 'day')) {
+          dates.add(current.format('YYYY-MM-DD'));
+          current.add(1, 'days');
+        }
+      }
+      // Do not block the start and end dates of reservations
+    });
+
+    return dates;
+  }, [blockedDateRanges]);
+
+  // Memoize single-night blocked dates as a set for quick lookup
+  const singleNightBlockedDatesSet = useMemo(() => {
+    return new Set(singleNightBlockedDates.map(date => date.format('YYYY-MM-DD')));
+  }, [singleNightBlockedDates]);
+
+  // Create a set of start dates
+  const startBlockedDates = useMemo(() => {
+    return new Set(
+      blockedDateRanges.map(range => moment(range.start).format('YYYY-MM-DD'))
+    );
+  }, [blockedDateRanges]);
+
+  // Create a set of end dates
+  const endBlockedDates = useMemo(() => {
+    return new Set(
+      blockedDateRanges.map(range => moment(range.end).format('YYYY-MM-DD'))
+    );
+  }, [blockedDateRanges]);
+
+  // Create a set of overlapping dates (dates that are both start and end dates)
+  const overlappingDates = useMemo(() => {
+    const overlap = [...startBlockedDates].filter(date => endBlockedDates.has(date));
+    return new Set(overlap);
+  }, [startBlockedDates, endBlockedDates]);
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -94,44 +144,57 @@ const handleReservation = () => {
     thumbnail: imageUrl,
   })) || [];
 
-  const isDayBlocked = day => {
+  // Updated isDayBlocked function (includes overlapping dates)
+  const isDayBlocked = (day) => {
     const sixMonthsFromNow = moment().add(6, 'months');
-    
-    // Check if the day is within the blockedDates array
-    const isBlockedDate = blockedDates.some(blockedDate => day.isSame(moment(blockedDate), 'day'));
-  
-    // Check if the day is more than 6 months in the future
-    const isAfterSixMonths = day.isAfter(sixMonthsFromNow, 'day');
-    
-    return isBlockedDate || isAfterSixMonths;
-  };
 
-  const isRangeIncludingBlockedDates = (startDate, endDate, blockedDates) => {
-    let currentDate = moment(startDate);
-    while (currentDate <= moment(endDate)) {
-      if (blockedDates.some(blockedDate => currentDate.isSame(moment(blockedDate), 'day'))) {
-        return true; // Found a blocked date within the range
-      }
-      currentDate = currentDate.add(1, 'days');
+    // Block days after six months
+    if (day.isAfter(sixMonthsFromNow, 'day')) {
+      return true;
     }
-    return false; // No blocked dates within the range
+
+    const dayStr = day.format('YYYY-MM-DD');
+
+    // Block internal blocked dates and overlapping dates
+    return allBlockedDates.has(dayStr) || overlappingDates.has(dayStr);
   };
 
-  const handleDatesChange = ({ startDate, endDate }) => {
-    if (!focusedInput) { // First selection (start date)
-      setStartDate(startDate);
-      setEndDate(null); // Clear end date on start date selection
-    } else if (!startDate || !endDate || !isRangeIncludingBlockedDates(startDate, endDate, blockedDates)) {
-      // Update dates if no blocked dates are within the range
-      setStartDate(startDate);
-      setEndDate(endDate);
-    } else {
-      // Optionally, reset the dates or show an error message
-      console.log('Selected range includes blocked dates.');
-      // Keep or reset the dates based on your needs
-      // Example: Resetting end date
-      setEndDate(null);
-      alert('El rango seleccionado incluye fechas bloqueadas. Por favor, elija un rango diferente.');
+  // Updated isRangeIncludingBlockedDates function
+  const isRangeIncludingBlockedDates = (startDate, endDate) => {
+    if (!startDate || !endDate) return false;
+
+    // Iterate through each day between startDate and endDate (excluding endDate)
+    let current = moment(startDate).add(1, 'days');
+    while (current.isBefore(endDate, 'day')) {
+      const dayStr = current.format('YYYY-MM-DD');
+      if (allBlockedDates.has(dayStr) || singleNightBlockedDatesSet.has(dayStr)) {
+        return true;
+      }
+      current.add(1, 'days');
+    }
+
+    return false;
+  };
+
+  const handleDatesChange = ({ startDate: newStartDate, endDate: newEndDate }) => {
+    if (focusedInput === 'startDate') { // User is selecting the start date
+      if (newStartDate && singleNightBlockedDates.some(singleDate => singleDate.isSame(newStartDate, 'day'))) {
+        // Prevent selecting a checkout-only date as start date
+        setStartDate(null);
+        setEndDate(null);
+        alert('No se puede seleccionar una fecha de solo checkout como fecha de llegada.');
+      } else {
+        setStartDate(newStartDate);
+        setEndDate(null); // Clear end date on new start date selection
+      }
+    } else if (focusedInput === 'endDate') { // User is selecting the end date
+      if (newStartDate && newEndDate && isRangeIncludingBlockedDates(newStartDate, newEndDate)) {
+        // Range includes blocked dates
+        setEndDate(null);
+        alert('El rango seleccionado incluye fechas bloqueadas. Por favor, elija un rango diferente.');
+      } else {
+        setEndDate(newEndDate);
+      }
     }
   };
 
@@ -166,15 +229,35 @@ const handleReservation = () => {
     );
   };
 
- 
+  // Function to render custom day contents
+  const renderDayContents = (day) => {
+    const dayStr = day.format('YYYY-MM-DD');
+    const isSingleNightBlocked = singleNightBlockedDates.some(singleDate => singleDate.isSame(day, 'day'));
+    const isBlocked = isDayBlocked(day);
 
-  
-  
+    let className = '';
+    let tooltip = '';
+
+    if (isSingleNightBlocked) {
+      className = styles.singleNightBlocked; // Apply yellow style
+      tooltip = 'Solo Checkout';
+    } else if (isBlocked) {
+      className = styles.multiNightBlocked; // Default red style
+      tooltip = 'Fecha no disponible';
+    }
+
+    return (
+      <div className={`${styles.dayCell} ${className}`} title={tooltip}>
+        {day.format('D')}
+      </div>
+    );
+  };
+
   return (
     <div className={styles.container}>
- <div className={styles.header}>
-  <h1>{property.title || 'Title Not Available'} </h1>
-</div>
+      <div className={styles.header}>
+        <h1>{property.title || 'Title Not Available'} </h1>
+      </div>
 
       <div className={styles.content}>
         <div className={styles.imageSection}>
@@ -182,90 +265,87 @@ const handleReservation = () => {
         </div>
 
         <div className={styles.detailsContainer}>
-        <div className={styles.propertyAndBookingDetails}>
+          <div className={styles.propertyAndBookingDetails}>
 
-          <h1>Características principales</h1>
-          {[
-            //{ icon: faHandHoldingDollar, label: `Precio: ${property.price ? `USD ${property.price}` : 'Precio no disponible'}` },
-            { icon: faRuler, label: `Mts<sup>2</sup>: ${property.mts2 || 'Mts no disponibles'}` },
-            { icon: faBath, label: `Baños: ${property.bathrooms || 'Baños Not Available'}` },
-            { icon: faBed, label: `Habitaciones: ${property.bedrooms || 'Habitaciones Not Available'}` },
-            { icon: faCity, label: `Barrio: ${property.neighborhood || 'Barrio no disponible'}` },
-            { icon: faDollarSign, label: `A partir de ${property.price || 'Barrio no disponible'} USD por noche` },
-          ].map(({ icon, label }) => (
-            <p key={label}>
-              <div className={styles.iconTextWrapper}>
-                <FontAwesomeIcon icon={icon} className={styles.bigIcon} />
-                <span className={styles.characteristic} dangerouslySetInnerHTML={{ __html: label }} />
+            <h1>Características principales</h1>
+            {[
+              { icon: faRuler, label: `Mts<sup>2</sup>: ${property.mts2 || 'Mts no disponibles'}` },
+              { icon: faBath, label: `Baños: ${property.bathrooms || 'Baños No Disponibles'}` },
+              { icon: faBed, label: `Habitaciones: ${property.bedrooms || 'Habitaciones No Disponibles'}` },
+              { icon: faCity, label: `Barrio: ${property.neighborhood || 'Barrio no disponible'}` },
+              { icon: faDollarSign, label: `A partir de ${property.price || 'Precio no disponible'} USD por noche` },
+            ].map(({ icon, label }) => (
+              <p key={label}>
+                <div className={styles.iconTextWrapper}>
+                  <FontAwesomeIcon icon={icon} className={styles.bigIcon} />
+                  <span className={styles.characteristic} dangerouslySetInnerHTML={{ __html: label }} />
+                </div>
+              </p>
+            ))}
+
+            <a
+              href={`https://wa.me/+5491156167916?text=Hola!%20Estoy%20interesado%20en%20la%20siguiente%20propiedad:%20${encodeURIComponent(currentURL)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.whatsappButton}
+            >
+              <FontAwesomeIcon icon={faWhatsapp} /> Contactar por WhatsApp
+            </a>
+          </div>
+
+          <div className={styles.bookingDetailsContainer}>
+            <h2>Seleccioná tus fechas</h2>
+
+            <div className={styles.calendarContainer}>
+              <DateRangePicker
+                startDate={startDate} // momentPropTypes.momentObj or null,
+                startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
+                endDate={endDate} // momentPropTypes.momentObj or null,
+                endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
+                onDatesChange={handleDatesChange}
+                hideKeyboardShortcutsPanel={true}
+                startDatePlaceholderText="Llegada"
+                endDatePlaceholderText="Salida"        
+                focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                onFocusChange={focusedInput => setFocusedInput(focusedInput)} // PropTypes.func.isRequired,
+                numberOfMonths={1}
+                isDayBlocked={isDayBlocked}
+                renderDayContents={renderDayContents} // Custom day rendering
+                withPortal={typeof window !== 'undefined' && window.innerWidth < 768}
+              />
+            </div>
+            <GuestSelector
+              adults={adults}
+              setAdults={setAdults}
+              children={children}
+              setChildren={setChildren}
+              infants={infants}
+              setInfants={setInfants}
+            />
+
+            <div className={styles.totalPrice}>
+              <div className={styles.priceInfo}>
+                <h2>Precio total</h2>
+                <p>{`USD ${totalPrice}`}</p>
               </div>
-            </p>
-          ))}
-
-          <a
-            href={`https://wa.me/+5491156167916?text=Hola!%20Estoy%20interesado%20en%20la%20siguiente%20propiedad:%20${encodeURIComponent(
-              currentURL
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.whatsappButton}
-          >
-            <FontAwesomeIcon icon={faWhatsapp} /> Contactar por WhatsApp
-          </a>
+              <button
+                className={styles.reservarButton}
+                onClick={handleReservation}
+                disabled={!startDate || !endDate} // Button is disabled if either date is not selected
+              >
+                Reservar
+              </button>
+            </div>
+          </div>
         </div>
-
-      <div className={styles.bookingDetailsContainer}>
-      <h2>Seleccioná tus fechas</h2>
-
-      <div className={styles.calendarContainer}>
-        <DateRangePicker
-          startDate={startDate} // momentPropTypes.momentObj or null,
-          startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-          endDate={endDate} // momentPropTypes.momentObj or null,
-          endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
-          onDatesChange={handleDatesChange}
-          hideKeyboardShortcutsPanel={true}
-          startDatePlaceholderText="Llegada"
-          endDatePlaceholderText="Salida"        
-          focusedInput={focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-          onFocusChange={focusedInput => setFocusedInput(focusedInput)} // PropTypes.func.isRequired,
-          numberOfMonths={1}
-          isDayBlocked={isDayBlocked}
-          withPortal={window.innerWidth < 768}
-        />
-      </div>
-     <GuestSelector
-    adults={adults}
-    setAdults={setAdults}
-    children={children}
-    setChildren={setChildren}
-    infants={infants}
-    setInfants={setInfants}
-     />
-
- 
-
-      <div className={styles.totalPrice}>
-      <div className={styles.priceInfo}>
-        <h2>Precio total</h2>
-        <p>{`USD ${totalPrice}`}</p>
-        </div>
-        <button
-  className={styles.reservarButton}
-  onClick={handleReservation}
-  disabled={!startDate || !endDate} // Button is disabled if either date is not selected
->
-  Reservar
-</button>      </div>
-</div>
-</div>
-</div>  
+      </div>  
 
       <div className={styles.description}>
-  <h2>Descripción</h2>
-  <div className={styles.description}>
-    <p>{property.description || 'Description Not Available'}</p>
-  </div>
-</div>
+        <h2>Descripción</h2>
+        <div className={styles.description}>
+          <p>{property.description || 'Description Not Available'}</p>
+        </div>
+      </div>
 
       <PropertyMap latitude={property.latitude} longitude={property.longitude} />
     </div>

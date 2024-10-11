@@ -41,6 +41,28 @@
   font-weight: 500;
 }
 
+.dayCell {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.dayCell:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+.singleNightBlocked {
+  background-color: #ffd666; /* Yellow background */
+  color: black;
+  cursor: pointer;
+}
+
 .header .price {
   font-size: 1.5rem;
   font-weight: bold;
