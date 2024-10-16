@@ -123,15 +123,15 @@ const PropertyDetails = ({ property }) => {
   useEffect(() => {
     const calculateTotalPrice = () => {
       if (!startDate || !endDate || !property.price) return;
-
+  
       const nights = endDate.diff(startDate, 'days');
-      const guestsCount = adults + children; // Assuming infants are free
-      const pricePerNight = parseInt(property.price, 10);      
-
-      const total = (pricePerNight + (guestsCount * 5)) * nights;
+      const extraGuests = Math.max(0, adults + children - 1); // Exclude the first adult
+      const pricePerNight = parseInt(property.price, 10);
+  
+      const total = (pricePerNight + (extraGuests * 5)) * nights;
       setTotalPrice(total);
     };
-
+  
     calculateTotalPrice();
   }, [startDate, endDate, adults, children, property.price]);
 
